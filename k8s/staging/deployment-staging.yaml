@@ -1,0 +1,51 @@
+kind: Deployment
+apiVersion: extensions/v1beta1
+metadata:
+  name: srvcz-web-admin-staging
+spec:
+  selector:
+    matchLabels:
+      app: web-admin-service
+      role: web-admin
+  replicas: 1
+  template:
+    metadata:
+      name: srvcz-web-admin-deployment
+      labels:
+        app: web-admin-service
+        role: web-admin
+        env: staging
+    spec:
+      containers:
+      - name: web-admin
+        image: gcr.io/srvc-marketplace/web-admin-service:1.0.0
+        env:
+          # - name: MONGODB_URL
+          #   valueFrom:
+          #     secretKeyRef:
+          #       name: mongo-secret
+          #       key: MONGODB_URL
+         # - name: API_URL
+          #  valueFrom:
+          #    secretKeyRef:
+          #      name: lesvault
+           #     key: api_url_staging
+          #- name: NODE_ENV
+          #  value: production
+          - name: HOST_IP
+            valueFrom:
+              fieldRef:
+                fieldPath: status.podIP
+        resources:
+          limits:
+            memory: "500Mi"
+            cpu: "100m"
+        imagePullPolicy: Always
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 4200
+        #args: ['--env="HOST_IP=$(HOST_IP)"','--env="API_URL=$(API_URL)"','--env="MONGODB_URL=$(MONGODB_URL)"']
+        ports:
+        - name: web-admin
+          containerPort: 4200

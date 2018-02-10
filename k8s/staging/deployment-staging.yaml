@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
       - name: web-admin
-        image: gcr.io/srvc-marketplace/web-admin-service:1.0.0
+        image: gcr.io/gebeya-devops-trainer/web-admin-service:1.0.0
         env:
           # - name: MONGODB_URL
           #   valueFrom:

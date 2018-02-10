@@ -7,9 +7,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TodosComponent implements OnInit {
 
+  private todos = ['1st Todo', 'new Todo', '2nd Todo', 'Third Todo'];
   constructor() { }
 
   ngOnInit() {
+  }
+
+  getTodo() {
+    return this.todos;
   }
 
 }

@@ -1,13 +1,18 @@
-# Stage 1 - the build process
-FROM node:8.9.4 as build-deps
-WORKDIR /usr/src/app
-COPY package.json yarn.lock ./
-RUN yarn
-COPY . ./
-RUN yarn build
+# Dockerfile for Web backend Admin
 
-# Stage 2 - the production environment
-FROM nginx:1.12-alpine
-COPY --from=build-deps /usr/src/app/build /usr/share/nginx/html
-EXPOSE 80
-CMD ["nginx", "-g", "daemon off;"]
+FROM node:8.4.0
+
+MAINTAINER Mikiyas Amdu <mikias.amdu@gmail.com>
+
+ADD . /home/web-admins
+
+WORKDIR /home/web-admins
+
+RUN npm install
+
+
+RUN npm run postinstall
+
+EXPOSE 4200
+
+ENTRYPOINT ["node", "server.js"]
